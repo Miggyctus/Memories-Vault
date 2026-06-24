@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nuestro Baúl de Recuerdos 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Lato:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --rose:        #F2A7BB;
+      --rose-light:  #FDE8EF;
+      --rose-deep:   #C45C7F;
+      --blush:       #FAD4DE;
+      --cream:       #FFF7F9;
+      --petal:       #FCEEF3;
+      --text:        #5A2D42;
+      --text-soft:   #9A6878;
+      --white:       #FFFFFF;
+      --shadow:      rgba(196,92,127,0.13);
+      --shadow-deep: rgba(196,92,127,0.28);
+      --locked-bg:   #F5EEF1;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content:'';
+      position:fixed; inset:0;
+      background:
+        radial-gradient(ellipse at 15% 20%, rgba(242,167,187,.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 70%, rgba(250,212,222,.22) 0%, transparent 50%);
+      pointer-events:none; z-index:0;
+    }
+
+    /* ── HEARTS ── */
+    .hearts-bg { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .heart-float {
+      position:absolute; opacity:0;
+      animation: floatUp linear infinite;
+      user-select:none;
+    }
+    @keyframes floatUp {
+      0%   { transform:translateY(100vh) rotate(0deg); opacity:0; }
+      10%  { opacity:.35; }
+      90%  { opacity:.12; }
+      100% { transform:translateY(-10vh) rotate(20deg); opacity:0; }
+    }
+
+    /* ── LAYOUT ── */
+    main { position:relative; z-index:1; max-width:900px; margin:0 auto; padding:3rem 1.5rem 7rem; }
+
+    /* ── HEADER ── */
+    header { text-align:center; padding:3rem 0 1.5rem; }
+    .eyebrow { font-family:'Dancing Script',cursive; font-size:1.05rem; color:var(--rose-deep); letter-spacing:.06em; margin-bottom:.4rem; }
+    h1 { font-family:'Dancing Script',cursive; font-size:clamp(2.4rem,6vw,3.8rem); font-weight:700; color:var(--rose-deep); line-height:1.1; text-shadow:0 2px 20px var(--shadow-deep); }
+    .subtitle { font-size:.78rem; color:var(--text-soft); margin-top:.6rem; letter-spacing:.14em; text-transform:uppercase; }
+
+    /* ── DIVIDER ── */
+    .divider { display:flex; align-items:center; gap:1rem; margin:1.5rem 0; color:var(--rose); }
+    .divider::before,.divider::after { content:''; flex:1; height:1px; background:linear-gradient(to right,transparent,var(--rose)); }
+    .divider::after { background:linear-gradient(to left,transparent,var(--rose)); }
+
+    /* ── COUNTER ── */
+    .counter-section {
+      background:linear-gradient(135deg,var(--white) 0%,var(--petal) 100%);
+      border:1.5px solid var(--blush); border-radius:20px;
+      padding:2rem; margin-bottom:3rem;
+      box-shadow:0 8px 40px var(--shadow); text-align:center;
+    }
+    .counter-label { font-family:'Dancing Script',cursive; font-size:1.25rem; color:var(--rose-deep); margin-bottom:1.4rem; }
+    .counters-row { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; }
+    .counter-item { display:flex; flex-direction:column; align-items:center; gap:.2rem; }
+    .counter-num { font-family:'Playfair Display',serif; font-size:clamp(2.4rem,5.5vw,3.6rem); color:var(--rose-deep); line-height:1; }
+    .counter-unit { font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; color:var(--text-soft); }
+    .counter-sep { font-size:1.8rem; color:var(--rose); align-self:center; margin-top:-.4rem; }
+    .dates-row { display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin-top:1.4rem; padding-top:1.4rem; border-top:1px dashed var(--blush); }
+    .date-item { text-align:center; }
+    .date-emoji { font-size:1.2rem; }
+    .date-tag { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-soft); margin:.2rem 0 .1rem; }
+    .date-val { font-family:'Dancing Script',cursive; font-size:1.1rem; color:var(--rose-deep); }
+
+    /* ── SECTION TITLES ── */
+    .section-title { font-family:'Dancing Script',cursive; font-size:1.9rem; color:var(--rose-deep); text-align:center; margin-bottom:1.5rem; }
+
+    /* ── CARTA PRINCIPAL ── */
+    .carta-section {
+      background:var(--white); border:1.5px solid var(--blush); border-radius:20px;
+      padding:2.5rem 2.5rem 2rem; box-shadow:0 8px 40px var(--shadow); position:relative;
+      margin-bottom:4rem;
+    }
+    .carta-section::before {
+      content:'❧'; position:absolute; top:0; left:50%;
+      transform:translateX(-50%) translateY(-50%);
+      background:var(--cream); padding:0 .75rem;
+      color:var(--rose); font-size:1.4rem; line-height:1;
+    }
+    .carta-greeting { font-family:'Dancing Script',cursive; font-size:1.2rem; color:var(--rose-deep); margin-bottom:1.2rem; }
+    .carta-body {
+      font-family:'Dancing Script',cursive; font-size:1.2rem; line-height:2.05; color:var(--text);
+      min-height:160px; white-space:pre-wrap; word-break:break-word;
+      background-image:repeating-linear-gradient(to bottom, transparent 0, transparent calc(2.05em - 1px), var(--blush) calc(2.05em - 1px), var(--blush) 2.05em);
+      background-attachment:local;
+    }
+    .carta-cursor { display:inline-block; width:2px; height:1em; background:var(--rose-deep); margin-left:1px; vertical-align:text-bottom; animation:blink 1s step-end infinite; }
+    @keyframes blink { 50%{opacity:0;} }
+    .carta-firma { font-family:'Dancing Script',cursive; font-size:1.35rem; color:var(--rose-deep); text-align:right; margin-top:1.8rem; }
+
+    /* ── POLAROIDS ── */
+    .polaroid-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:2rem; margin-bottom:3.5rem; }
+    .polaroid {
+      background:var(--white); padding:.8rem .8rem 2.8rem;
+      box-shadow:0 6px 25px var(--shadow),0 2px 8px rgba(0,0,0,.06);
+      transform:rotate(var(--rot));
+      transition:transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+      cursor:pointer; position:relative; border-radius:2px;
+    }
+    .polaroid:hover { transform:rotate(0deg) scale(1.04) translateY(-4px); box-shadow:0 18px 50px var(--shadow-deep),0 4px 16px rgba(0,0,0,.1); z-index:10; }
+    .polaroid img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:var(--rose-light); }
+    .polaroid .pol-caption { position:absolute; bottom:.5rem; left:0; right:0; text-align:center; font-family:'Dancing Script',cursive; font-size:.9rem; color:var(--text); padding:0 .4rem; }
+
+    /* ── MONTH SECTIONS ── */
+    .months-wrapper { margin-top:1rem; }
+
+    /* square grid of month tiles */
+    .months-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:1rem;
+      margin-bottom:2rem;
+    }
+    @media(max-width:700px){ .months-grid{ grid-template-columns:repeat(3,1fr); } }
+    @media(max-width:460px){ .months-grid{ grid-template-columns:repeat(2,1fr); gap:.7rem; } }
+
+    .month-tile {
+      aspect-ratio:1/1;
+      border-radius:16px;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:.35rem;
+      cursor:pointer;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+      transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+      box-shadow:0 4px 18px var(--shadow);
+    }
+    .month-tile:hover { transform:scale(1.05) translateY(-2px); box-shadow:0 10px 35px var(--shadow-deep); }
+    .month-tile.unlocked {
+      background:linear-gradient(135deg,var(--rose-deep),#E07498);
+    }
+    .month-tile.locked {
+      background:linear-gradient(135deg,#D4B8C2,#BEA0AE);
+      cursor:default;
+    }
+    .month-tile.locked:hover { transform:none; box-shadow:0 4px 18px var(--shadow); }
+    .month-tile .tile-num {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.6rem,4vw,2.4rem);
+      color:white; line-height:1;
+    }
+    .month-tile .tile-label {
+      font-family:'Dancing Script',cursive;
+      font-size:clamp(.7rem,2vw,.9rem);
+      color:rgba(255,255,255,.9);
+      text-align:center; padding:0 .4rem;
+      line-height:1.2;
+    }
+    .month-tile .tile-icon { font-size:clamp(.9rem,2.5vw,1.3rem); }
+    .month-tile .tile-check {
+      position:absolute; top:.45rem; right:.55rem;
+      font-size:.8rem; opacity:.85;
+    }
+
+    /* modal overlay for month detail */
+    .month-modal-overlay {
+      display:none; position:fixed; inset:0;
+      background:rgba(90,45,66,.65); backdrop-filter:blur(6px);
+      z-index:150; align-items:center; justify-content:center;
+      padding:1rem;
+    }
+    .month-modal-overlay.active { display:flex; }
+    .month-modal {
+      background:var(--white);
+      border-radius:24px;
+      max-width:600px; width:100%;
+      max-height:88vh; overflow-y:auto;
+      box-shadow:0 24px 70px rgba(90,45,66,.35);
+      animation:popIn .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn { from{transform:scale(.88);opacity:0;} to{transform:scale(1);opacity:1;} }
+    .month-modal-header {
+      background:linear-gradient(135deg,var(--rose-deep),#E07498);
+      padding:1.2rem 1.5rem;
+      border-radius:24px 24px 0 0;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .month-modal-title { font-family:'Dancing Script',cursive; font-size:1.5rem; color:white; }
+    .month-modal-close {
+      background:rgba(255,255,255,.25); border:none; border-radius:50%;
+      width:2rem; height:2rem; color:white; font-size:1rem;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .2s;
+    }
+    .month-modal-close:hover { background:rgba(255,255,255,.4); }
+    .month-modal-body { padding:2rem 2rem 1.5rem; }
+
+    /* locked tile modal */
+    .month-locked-body {
+      background:var(--locked-bg);
+      padding:2.5rem 1.5rem; text-align:center;
+      border-radius:0 0 24px 24px;
+    }
+    .lock-big { font-size:2.5rem; margin-bottom:.75rem; }
+    .lock-msg { font-family:'Dancing Script',cursive; font-size:1.15rem; color:var(--text-soft); line-height:1.6; }
+    .lock-date { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-soft); margin-top:.5rem; opacity:.7; }
+
+    /* mini carta inside month */
+    .mini-carta { margin-bottom:1.5rem; }
+    .mini-carta p { font-family:'Dancing Script',cursive; font-size:1.1rem; line-height:1.95; color:var(--text); white-space:pre-wrap; }
+    .mini-firma { font-family:'Dancing Script',cursive; font-size:1.15rem; color:var(--rose-deep); text-align:right; margin-top:1rem; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(90,45,66,.75); backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
+    .lightbox.active { display:flex; }
+    .lightbox img { max-width:90vw; max-height:85vh; object-fit:contain; box-shadow:0 20px 60px rgba(0,0,0,.4); border-radius:4px; border:8px solid white; }
+    .lightbox-close { position:absolute; top:1.5rem; right:1.5rem; background:white; border:none; border-radius:50%; width:2.5rem; height:2.5rem; font-size:1.1rem; cursor:pointer; color:var(--rose-deep); display:flex; align-items:center; justify-content:center; }
+
+    /* ── FOOTER ── */
+    footer { text-align:center; padding:2rem 0; font-family:'Dancing Script',cursive; font-size:1.1rem; color:var(--rose-deep); opacity:.65; position:relative; z-index:1; }
+
+    @media(max-width:600px){
+      main{padding:2rem 1rem 5rem;}
+      .carta-section{padding:2rem 1.25rem;}
+      .counters-row{gap:.8rem;}
+      .counter-sep{display:none;}
+      .month-body{padding:1.5rem 1.25rem 1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<main>
+
+  <header>
+    <p class="eyebrow">para vos, con todo mi amor <3</p>
+    <h1>Nuestro Baúl<br>de Recuerdos</h1>
+    <p class="subtitle">Nuestro tiempo juntos</p>
+  </header>
+
+  <div class="divider">💕</div>
+
+  <!-- COUNTER -->
+  <section class="counter-section">
+    <p class="counter-label">Llevamos juntos...</p>
+    <div class="counters-row">
+      <div class="counter-item"><span class="counter-num" id="cnt-years">0</span><span class="counter-unit">años</span></div>
+      <span class="counter-sep">·</span>
+      <div class="counter-item"><span class="counter-num" id="cnt-months">0</span><span class="counter-unit">meses</span></div>
+      <span class="counter-sep">·</span>
+      <div class="counter-item"><span class="counter-num" id="cnt-days">0</span><span class="counter-unit">días</span></div>
+      <span class="counter-sep">·</span>
+      <div class="counter-item"><span class="counter-num" id="cnt-hours">0</span><span class="counter-unit">horas</span></div>
+      <span class="counter-sep">·</span>
+      <div class="counter-item"><span class="counter-num" id="cnt-mins">00</span><span class="counter-unit">minutos</span></div>
+    </div>
+    <div class="dates-row">
+      <div class="date-item">
+        <div class="date-emoji">💬</div>
+        <div class="date-tag">empezamos a hablar</div>
+        <div class="date-val">13 dic 2025</div>
+      </div>
+      <div class="date-item">
+        <div class="date-emoji">💍</div>
+        <div class="date-tag">somos novios desde</div>
+        <div class="date-val">12 mar 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTA PRINCIPAL -->
+  <h2 class="section-title">✉️ Mi carta para vos</h2>
+  <section class="carta-section">
+    <p class="carta-greeting">Mi amor,</p>
+    <div id="carta-display" class="carta-body"></div><span class="carta-cursor" id="carta-cursor" style="display:none"></span>
+    <p class="carta-firma">te amo, Miggy 🌸</p>
+  </section>
+
+  <!-- POLAROIDS PRINCIPALES -->
+  <h2 class="section-title">📸 Nuestras fotos</h2>
+  <div class="polaroid-grid" id="main-polaroid-grid"></div>
+
+  <div class="divider">🌸</div>
+
+  <!-- MESES -->
+  <h2 class="section-title" style="margin-top:1rem">🗓️ Mes a mes</h2>
+  <p style="text-align:center;font-family:'Dancing Script',cursive;font-size:1.05rem;color:var(--text-soft);margin-bottom:2rem;">
+    Cada mes que pasamos juntos veni a ver cada cuadrito, se desbloquean apenas lleguen nuestros cumple mes 
+  </p>
+  <div class="months-wrapper" id="months-wrapper"></div>
+
+</main>
+
+<footer>Te amo con todo mi corazon Vanessa Ricciardi 💕</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ★  ZONA DE EDICIÓN  ★
+   Solo editá lo que está entre los comentarios EDITAR/FIN.
+   No toques nada fuera de esas marcas.
+══════════════════════════════════════════════════════════════ */
+
+
+/* ────────────────────────────────────────────────────────────
+   📝 CARTA PRINCIPAL
+   Esta carta aparece al inicio de la página con efecto
+   de escritura a máquina. Escribí lo que quieras entre
+   los backticks (`). Podés usar saltos de línea normales.
+──────────────────────────────────────────────────────────── */
+const CARTA_PRINCIPAL = /* EDITAR CARTA PRINCIPAL → */
+`Yo se que no soy el novio ni hombre perfecto tengo mas defectos que virtudes, pero tambien se que
+te amo mas a que a nada en este mundo, me haces sentir muy especial, por mas que te haga enojar cada 2 x 3
+al final del dia siempre me tratas con tanto cariño y amor.
+
+Todo lo que haces por mi tiene un peso gigante en mi dia a dia, por mas que no tenga ganas ni de salir de mi
+cama o de ir al gym mucho menos trabajar, saber que al final de la semana te voy a ver y me voy a olvidar de 
+todos los problemas de la semana me da la energia y fuerza necesaria para sobrellevar el dia.
+
+Quiero que esta relacion dure hasta el final de nuestros dias, yo me comprometo, juro y prometo a hacerte la mujer masfeliz, querida y amada del mundo. Llegar hasta viejitos juntos y reirnos recordando todo lo que pasamos juntos.
+Sos la persona en la que mas confio y mas importante de mi vida, todas tus palabras alientos y cariño guardo en mi corazon y cabeza. Te amo <3
+
+Gracias por elegirme cada día, por apoyarme, por hacerme sentir tan amado, y mas que nada, gracias por estar en mi vida . 💕`
+/* ← FIN CARTA PRINCIPAL */;
+
+
+/* ────────────────────────────────────────────────────────────
+   📸 FOTOS PRINCIPALES
+   Estas fotos aparecen en la sección principal de la página.
+
+   CÓMO AGREGAR FOTOS:
+   · Fotos del repo (recomendado): subí las fotos a una carpeta
+     llamada "fotos" en tu repo y usá: src: "./fotos/nombre.jpg"
+   · Fotos de internet: src: "https://enlace-directo.com/foto.jpg"
+
+   Podés agregar o quitar bloques { src, caption } según necesites.
+   La "caption" es el texto que aparece abajo de cada polaroid.
+──────────────────────────────────────────────────────────── */
+const FOTOS_PRINCIPALES = [ /* EDITAR FOTOS PRINCIPALES → */
+
+  {
+    src: "./fotos/polaroid1.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "nuestro primer desayuno juntos 🌸"   /* ← DESCRIPCIÓN */
+  },
+  {
+    src: "./fotos/polaroid2.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "Nuestro primer mini viaje juntos 💕"
+  },
+  {
+    src: "./fotos/polaroid3.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "Nuestra primera cabañeada 💕"
+  },
+  {
+    src: "./fotos/polaroid4.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "Tu foto juntos favorita 💕"
+  },
+  {
+    src: "./fotos/polaroid5.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "Mi foto juntos favorita 💕"
+  },
+  {
+    src: "./fotos/polaroid6.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "La primera vez que hacemos chipa!!!"
+  },
+  {
+    src: "./fotos/polaroid7.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "Nuestro primer concierto"
+  },
+  {
+    src: "./fotos/polaroid8.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "My graduation day"
+  },
+  {
+    src: "./fotos/polaroid9.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "Presentandote a la familia <333"
+  },
+  {
+    src: "./fotos/polaroid10.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "El dia que nos hicimos NOVIOSSS"
+  },
+  {
+    src: "./fotos/polaroid11.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "BACKROOMS"
+  },
+  {
+    src: "./fotos/polaroid12.jpeg",           /* ← RUTA O URL DE LA FOTO */
+    caption: "El dia que te enseñe a andar en bici jejeje"
+  },
+
+]; /* ← FIN FOTOS PRINCIPALES */
+
+
+/* ────────────────────────────────────────────────────────────
+   🗓️ SECCIONES POR MES
+   Cada bloque se desbloquea automáticamente cuando el contador
+   llegue al número de meses indicado en "mes".
+
+   CAMPOS DE CADA MES:
+   · mes     → número de meses necesarios para desbloquearse
+   · titulo  → título que aparece en el cuadrado y en el modal
+   · carta   → cartita de ese mes (entre backticks, con saltos)
+   · fotos   → igual que FOTOS_PRINCIPALES (podés poner varias)
+
+   Editá cada mes cuando llegue ese momento, antes de que se
+   desbloquee para que ella lo vea completo. 💕
+──────────────────────────────────────────────────────────── */
+const MESES = [
+
+  /* ── MES 1 ── EDITAR → */
+  {
+    mes: 1,
+    titulo: "Nuestro primer mes 🌷",       /* ← TÍTULO DEL MES */
+    carta: `Nuestro primer mes juntitos.
+Gracias por cada risa, cada mensaje, cada momento.
+Apenas estabamos empezando y ya me diste tanto.`,   /* ← CARTITA */
+    fotos: [
+      { src: "./fotos/1mes1.jpeg", caption: "mes 1 💗" }, { src: "./fotos/1mes2.jpeg", caption: "mes 1 💗" }, 
+      { src: "./fotos/1mes3.jpeg", caption: "mes 1 💗" }, { src: "./fotos/1mes4.jpeg", caption: "mes 1 💗" }   /* ← FOTO(S) DEL MES */
+    ]
+  },
+  /* ← FIN MES 1 */
+
+  /* ── MES 2 ── EDITAR → */
+  {
+    mes: 2,
+    titulo: "Dos meses juntos 🌸",
+    carta: `Este mes tuvimos un festejo diferente.
+Pasamos con tus suegros y nos paseamos por Caacupe.
+LA MEJOR TAZA DEL MUNDOOOOOOOOOO AAAAAAAAAA
+Te amo un monton. 🌸`,
+    fotos: [
+      { src: "./fotos/2mes1.jpeg", caption: "mes 2 💕" },
+      { src: "./fotos/2mes2.jpeg", caption: "mes 2 💕" },
+      { src: "./fotos/2mes3.jpeg", caption: "mes 2 💕" },
+      { src: "./fotos/2mes4.jpeg", caption: "mes 2 💕" },
+      { src: "./fotos/2mes5.jpeg", caption: "mes 2 💕" }
+    ]
+  },
+  /* ← FIN MES 2 */
+
+  /* ── MES 3 ── EDITAR → */
+  {
+    mes: 3,
+    titulo: "Tres meses, amor 💖",
+    carta: `Nuestros 3 mesesitos, un mes durito para ambos, pero siempre nos apoyamos y cuidamos <3
+Mis primeras flores y amo con mi vida.
+Sos lo mejor que me pasó enserio, te amo muchisimo.`,
+    fotos: [
+      { src: "./fotos/3mes1.jpeg", caption: "mes 3 🌷" },
+      { src: "./fotos/3mes2.jpeg", caption: "mes 3 🌷" },
+      { src: "./fotos/3mes3.jpeg", caption: "mes 3 🌷" },
+      { src: "./fotos/3mes4.jpeg", caption: "mes 3 🌷" },
+      { src: "./fotos/3mes5.jpeg", caption: "mes 3 🌷" },
+      { src: "./fotos/3mes6.jpeg", caption: "mes 3 🌷" }
+    ]
+  },
+  /* ← FIN MES 3 */
+
+  /* ── MES 4 ── EDITAR → */
+  {
+    mes: 4,
+    titulo: "Cuatro meses 🎀",
+    carta: `Cuatro meses.
+Si te dijera que no me imaginé este momento desde el principio, te mentiría.
+Gracias por quedarte. 🎀`,
+    fotos: [
+      { src: "", caption: "mes 4 💝" },
+    ]
+  },
+  /* ← FIN MES 4 */
+
+  /* ── MES 5 ── EDITAR → */
+  {
+    mes: 5,
+    titulo: "Cinco meses 🌹",
+    carta: `Cinco meses y ya no me acuerdo cómo era esto sin vos.
+Que sean muchos más, mi amor. 🌹`,
+    fotos: [
+      { src: "", caption: "mes 5 💕" },
+    ]
+  },
+  /* ← FIN MES 5 */
+
+  /* ── MES 6 ── EDITAR → */
+  {
+    mes: 6,
+    titulo: "Medio año juntos 🥂",
+    carta: `Medio año.
+Seis meses de mensajes, de risas, de todo.
+Me alegra tanto que estés en mi vida. 🥂💕`,
+    fotos: [
+      { src: "", caption: "6 meses 🌸" },
+    ]
+  },
+  /* ← FIN MES 6 */
+
+  /* ── MES 7 ── EDITAR → */
+  {
+    mes: 7,
+    titulo: "Siete meses 💫",
+    carta: `Siete meses y cada día descubro algo nuevo que me gusta de vos.
+No sabía que podía querer tanto a alguien.
+Gracias por estar. 💫`,
+    fotos: [
+      { src: "", caption: "mes 7 💕" },
+    ]
+  },
+  /* ← FIN MES 7 */
+
+  /* ── MES 8 ── EDITAR → */
+  {
+    mes: 8,
+    titulo: "Ocho meses 🌙",
+    carta: `Ocho meses.
+Si me preguntaras cuál fue el mejor momento, no podría elegir uno solo.
+Todos los momentos con vos son mis favoritos. 🌙`,
+    fotos: [
+      { src: "", caption: "mes 8 🌙" },
+    ]
+  },
+  /* ← FIN MES 8 */
+
+  /* ── MES 9 ── EDITAR → */
+  {
+    mes: 9,
+    titulo: "Nueve meses 🌺",
+    carta: `Nueve meses juntos.
+Sigo aprendiendo de vos, sigo eligiéndote, sigo queriéndote más.
+No me canso de esto. 🌺`,
+    fotos: [
+      { src: "", caption: "mes 9 🌺" },
+    ]
+  },
+  /* ← FIN MES 9 */
+
+  /* ── MES 10 ── EDITAR → */
+  {
+    mes: 10,
+    titulo: "Diez meses 💎",
+    carta: `Diez meses.
+Son tantas cosas guardadas en estos meses que no me alcanzan las palabras.
+Pero te las debo todas. 💎💕`,
+    fotos: [
+      { src: "", caption: "mes 10 💎" },
+    ]
+  },
+  /* ← FIN MES 10 */
+
+  /* ── MES 11 ── EDITAR → */
+  {
+    mes: 11,
+    titulo: "Once meses 🕯️",
+    carta: `Once meses y ya falta tan poco para el año.
+Gracias por hacer que este tiempo sea el más lindo que recuerdo.
+Te quiero muchísimo. 🕯️`,
+    fotos: [
+      { src: "", caption: "mes 11 🕯️" },
+    ]
+  },
+  /* ← FIN MES 11 */
+
+  /* ── MES 12 ── EDITAR → */
+  {
+    mes: 12,
+    titulo: "¡Un año juntos! 🎉",
+    carta: `Un año.
+365 días eligiéndonos.
+No tengo palabras para decirte lo que significás para mí,
+pero espero que este año y todos los que vienen te lo demuestren.
+Feliz aniversario, mi amor. 🎉💕`,
+    fotos: [
+      { src: "", caption: "nuestro primer año 🎉" },
+    ]
+  },
+  /* ← FIN MES 12 */
+
+];
+
+/* ══════════════════════════════════════════════
+   FIN DE LA ZONA DE EDICIÓN
+   No tocar lo de abajo ↓
+══════════════════════════════════════════════ */
+
+// ── HEARTS ──────────────────────────────────
+(function(){
+  const bg = document.getElementById('hearts-bg');
+  const emojis = ['💕','💗','🌸','✿','💖','🌷','💓'];
+  for(let i=0;i<16;i++){
+    const el = document.createElement('span');
+    el.className='heart-float';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDuration=(13+Math.random()*18)+'s';
+    el.style.animationDelay=(Math.random()*22)+'s';
+    el.style.fontSize=(.65+Math.random()*.8)+'rem';
+    bg.appendChild(el);
+  }
+})();
+
+// ── COUNTER ─────────────────────────────────
+const NOVIOS_DATE = new Date('2026-03-12T00:00:00');
+
+function getElapsed(){
+  const now = new Date();
+  let diff = now - NOVIOS_DATE;
+  if(diff<0) diff=0;
+
+  let y  = now.getFullYear() - NOVIOS_DATE.getFullYear();
+  let mo = now.getMonth()    - NOVIOS_DATE.getMonth();
+  let d  = now.getDate()     - NOVIOS_DATE.getDate();
+  if(d<0){ mo--; const prev=new Date(now.getFullYear(),now.getMonth(),0); d+=prev.getDate(); }
+  if(mo<0){ y--; mo+=12; }
+
+  // total months for unlock logic
+  const totalMonths = y*12 + mo;
+
+  return { y, mo, d, h:now.getHours(), m:now.getMinutes(), totalMonths };
+}
+
+function updateCounter(){
+  const e = getElapsed();
+  document.getElementById('cnt-years').textContent  = e.y;
+  document.getElementById('cnt-months').textContent = e.mo;
+  document.getElementById('cnt-days').textContent   = e.d;
+  document.getElementById('cnt-hours').textContent  = e.h;
+  document.getElementById('cnt-mins').textContent   = String(e.m).padStart(2,'0');
+}
+updateCounter();
+setInterval(updateCounter,30000);
+
+// ── TYPEWRITER ──────────────────────────────
+function typeWriter(text, displayEl, cursorEl, delay=600){
+  let i=0;
+  displayEl.textContent='';
+  if(cursorEl) cursorEl.style.display='inline-block';
+  setTimeout(function step(){
+    if(i<text.length){
+      displayEl.textContent+=text[i];
+      i++;
+      setTimeout(step, 36+Math.random()*26);
+    }
+  }, delay);
+}
+
+// ── POLAROID HELPERS ────────────────────────
+const ROTS = ['-2.5deg','1.8deg','-1.2deg','2.8deg','-1.8deg','1.2deg','-3deg','2.2deg'];
+
+function buildPolaroidGrid(photos, container){
+  container.innerHTML='';
+  const valid = photos.filter(p=>p.src && p.src.trim()!=='');
+  if(valid.length===0){
+    container.innerHTML='<p style="text-align:center;font-family:\'Dancing Script\',cursive;color:var(--text-soft);font-size:1rem;padding:1rem 0;opacity:.7">Las fotos de este momento pronto van a aparecer acá 📷</p>';
+    return;
+  }
+  valid.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='polaroid';
+    div.style.setProperty('--rot', ROTS[i%ROTS.length]);
+    const img=document.createElement('img');
+    img.src=p.src; img.alt=p.caption||'';
+    img.addEventListener('click',()=>openLightbox(p.src));
+    const cap=document.createElement('div');
+    cap.className='pol-caption';
+    cap.textContent=p.caption||'';
+    div.appendChild(img); div.appendChild(cap);
+    container.appendChild(div);
+  });
+}
+
+// ── LIGHTBOX ────────────────────────────────
+function openLightbox(src){
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox').classList.add('active');
+}
+document.getElementById('lightbox-close').addEventListener('click',()=>{
+  document.getElementById('lightbox').classList.remove('active');
+});
+document.getElementById('lightbox').addEventListener('click',function(e){
+  if(e.target===this) this.classList.remove('active');
+});
+
+// ── CARTA PRINCIPAL ─────────────────────────
+if(CARTA_PRINCIPAL.trim()){
+  typeWriter(CARTA_PRINCIPAL, document.getElementById('carta-display'), document.getElementById('carta-cursor'), 700);
+} else {
+  document.getElementById('carta-display').textContent='Pronto vas a encontrar algo especial acá 💕';
+  document.getElementById('carta-cursor').style.display='none';
+}
+
+// ── FOTOS PRINCIPALES ───────────────────────
+buildPolaroidGrid(FOTOS_PRINCIPALES, document.getElementById('main-polaroid-grid'));
+
+// ── MESES ───────────────────────────────────
+function unlockDate(mes){
+  const d = new Date(NOVIOS_DATE);
+  d.setMonth(d.getMonth()+mes);
+  return d;
+}
+
+function formatDate(d){
+  return d.toLocaleDateString('es-PY',{day:'numeric',month:'long',year:'numeric'});
+}
+
+// ── MONTH MODAL ─────────────────────────────
+const modalOverlay = document.createElement('div');
+modalOverlay.className='month-modal-overlay';
+modalOverlay.id='month-modal-overlay';
+modalOverlay.innerHTML='<div class="month-modal" id="month-modal"></div>';
+document.body.appendChild(modalOverlay);
+
+modalOverlay.addEventListener('click',function(e){
+  if(e.target===this) closeMonthModal();
+});
+
+function closeMonthModal(){
+  modalOverlay.classList.remove('active');
+  document.getElementById('month-modal').innerHTML='';
+}
+
+function openMonthModal(data, unlocked){
+  const modal = document.getElementById('month-modal');
+  modal.innerHTML='';
+
+  const hdr=document.createElement('div');
+  hdr.className='month-modal-header';
+  const title=document.createElement('span');
+  title.className='month-modal-title';
+  title.textContent=data.titulo;
+  const closeBtn=document.createElement('button');
+  closeBtn.className='month-modal-close';
+  closeBtn.textContent='X';
+  closeBtn.addEventListener('click',closeMonthModal);
+  hdr.appendChild(title); hdr.appendChild(closeBtn);
+  modal.appendChild(hdr);
+
+  if(unlocked){
+    const body=document.createElement('div');
+    body.className='month-modal-body';
+
+    if(data.carta && data.carta.trim()){
+      const mc=document.createElement('div');
+      mc.className='mini-carta';
+      const p=document.createElement('p');
+      p.textContent=data.carta;
+      mc.appendChild(p);
+      const firma=document.createElement('p');
+      firma.className='mini-firma';
+      firma.textContent='con amor 🌸';
+      mc.appendChild(firma);
+      body.appendChild(mc);
+      const sep=document.createElement('div');
+      sep.className='divider'; sep.textContent='💕';
+      body.appendChild(sep);
+    }
+
+    const grid=document.createElement('div');
+    grid.className='polaroid-grid';
+    body.appendChild(grid);
+    buildPolaroidGrid(data.fotos||[], grid);
+    modal.appendChild(body);
+  } else {
+    const locked=document.createElement('div');
+    locked.className='month-locked-body';
+    const icon=document.createElement('div');
+    icon.className='lock-big'; icon.textContent='🔒';
+    const msg=document.createElement('p');
+    msg.className='lock-msg';
+    msg.textContent='Este recuerdo se abre cuando cumplamos ' + data.mes + ' ' + (data.mes===1?'mes':'meses') + ' juntos 💕';
+    const dateHint=document.createElement('p');
+    dateHint.className='lock-date';
+    dateHint.textContent='Se desbloquea el ' + formatDate(unlockDate(data.mes));
+    locked.appendChild(icon); locked.appendChild(msg); locked.appendChild(dateHint);
+    modal.appendChild(locked);
+  }
+
+  modalOverlay.classList.add('active');
+}
+
+// ── BUILD MONTHS GRID ────────────────────────
+const TILE_ICONS = ['🌷','🌸','💖','🎀','🌹','🥂','💫','🌙','🌺','💎','🕯️','🎉'];
+
+function buildMonths(){
+  const wrapper = document.getElementById('months-wrapper');
+  wrapper.innerHTML='';
+  const { totalMonths } = getElapsed();
+
+  const grid=document.createElement('div');
+  grid.className='months-grid';
+
+  MESES.forEach(function(data,i){
+    const unlocked = totalMonths >= data.mes;
+    const tile=document.createElement('div');
+    tile.className='month-tile ' + (unlocked?'unlocked':'locked');
+
+    const check=document.createElement('span');
+    check.className='tile-check';
+    check.textContent= unlocked ? '✓' : '';
+
+    const icon=document.createElement('span');
+    icon.className='tile-icon';
+    icon.textContent= unlocked ? TILE_ICONS[i] : '🔒';
+
+    const num=document.createElement('span');
+    num.className='tile-num';
+    num.textContent= 'Mes ' + data.mes;
+
+    const label=document.createElement('span');
+    label.className='tile-label';
+    if(unlocked){
+      label.textContent= data.titulo.replace(/\p{Emoji}/gu,'').trim();
+    } else {
+      const ud = unlockDate(data.mes);
+      label.textContent= ud.toLocaleDateString('es-PY',{day:'numeric',month:'short'});
+    }
+
+    tile.appendChild(check);
+    tile.appendChild(icon);
+    tile.appendChild(num);
+    tile.appendChild(label);
+
+    tile.addEventListener('click',function(){ openMonthModal(data, unlocked); });
+
+    grid.appendChild(tile);
+  });
+
+  wrapper.appendChild(grid);
+}
+
+buildMonths();
+
+</script>
+</body>
+</html>
